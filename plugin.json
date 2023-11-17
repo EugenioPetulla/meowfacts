@@ -1,10 +1,10 @@
 {
-    "name": "My plugin",
-    "version": "0.0.1",
-    "description": "Description of my_plugin.",
+    "name": "Meowfacts",
+    "version": "0.0.2",
+    "description": "Description of meowfacts.",
     "author_name": "Me",
     "author_url": "https://mywebsite.me",
-    "plugin_url": "https://github.com/my_name/my_plugin",
+    "plugin_url": "https://github.com/my_name/meowfacts",
     "tags": "cat, template, example",
-    "thumb": "https://raw.githubusercontent.com/my_repo_path/my_plugin.png"
+    "thumb": "https://raw.githubusercontent.com/my_repo_path/meowfacts.png"
 }
