@@ -1,31 +1,24 @@
-from cat.mad_hatter.decorators import tool, hook, plugin
-from pydantic import BaseModel
-from datetime import datetime, date
+from cat.mad_hatter.decorators import tool
+import requests
 
-class MySettings(BaseModel):
-    required_int: int
-    optional_int: int = 69
-    required_str: str
-    optional_str: str = "meow"
-    required_date: date
-    optional_date: date = 1679616000
 
-@plugin
-def settings_schema():   
-    return MySettings.schema()
-
-@tool
-def get_the_day(tool_input, cat):
-    """Get the day of the week. Input is always None."""
-
-    dt = datetime.now()
-
-    return dt.strftime('%A')
-
-@hook
-def before_cat_sends_message(message, cat):
-
-    prompt = f'Rephrase the following sentence in a grumpy way: {message["content"]}'
-    message["content"] = cat.llm(prompt)
-
-    return message
+@tool(return_direct=True)
+def meow_facts(input, cat):
+    """
+    Useful to respond with an interesting fact about cats.
+    Input is None 
+    """
+    url = "https://meowfacts.herokuapp.com/"
+    
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if "data" in data and isinstance(data["data"], list) and len(data["data"]) > 0:
+                return data["data"][0]
+            else:
+                return "No meow facts available"
+        else:
+            return f"Failed to fetch data. Status code: {response.status_code}"
+    except requests.RequestException as e:
+        return f"Error: {e}"
